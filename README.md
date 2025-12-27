@@ -1,111 +1,82 @@
-# ResumePulse: Resume Analytics & Signal Evaluation System
+# GitHub System Design Architecture
 
-ResumePulse is a signal-based resume analytics assistant that analyzes observable signals in resumes and provides evidence-based, explainable feedback for technical roles.
+A comprehensive system design document for GitHub's architecture, covering scalability, performance, security, and all major components.
 
 ## Overview
 
-ResumePulse operates as a **signal interpreter**, not a holistic resume judge. It:
-- Analyzes observable signals extracted from resumes
-- Explains the screening implications of identified signals
-- Suggests specific, evidence-based improvements
+This repository contains a detailed system design architecture for GitHub, one of the world's largest code hosting platforms. The document covers how GitHub handles 50M+ users, 100M+ repositories, and billions of operations daily.
 
-## System Design
+## Contents
 
-This repository contains the system design for creating a Custom GPT on OpenAI's platform.
+- **`GITHUB_SYSTEM_DESIGN.md`**: Complete system design architecture document
 
-### Files
+## What's Covered
 
-- **`CUSTOM_GPT_SYSTEM_PROMPT.md`**: Complete system instructions to paste into OpenAI's Custom GPT builder
-- **`CUSTOM_GPT_SETUP_GUIDE.md`**: Step-by-step guide for setting up the Custom GPT
-- **`README.md`**: This file
+### Core Architecture
+- High-level system architecture with component diagrams
+- Microservices breakdown and service interactions
+- Data flow and communication patterns
 
-## Quick Start
+### Detailed Components
+- Repository Service (Git operations, forks, branches)
+- Git Protocol Handler (HTTPS/SSH)
+- Pull Request Service (merge workflows, conflict detection)
+- Issues & Project Management
+- Authentication & Authorization
+- Search Service (code, repository, user search)
 
-1. Read `CUSTOM_GPT_SETUP_GUIDE.md` for detailed setup instructions
-2. Copy the contents of `CUSTOM_GPT_SYSTEM_PROMPT.md` into your Custom GPT's Instructions field
-3. Configure conversation starters and capabilities as described in the setup guide
-4. Test and refine based on your needs
+### Technical Deep Dives
+- **Data Models**: Entity relationships and database schemas
+- **Storage Architecture**: MySQL sharding, Git object storage, caching strategies
+- **API Design**: REST and GraphQL APIs
+- **Scalability**: Horizontal scaling, caching, database optimization
+- **Security**: Authentication, authorization, encryption
+- **Deployment**: Blue-green deployments, canary releases
 
-## Core Philosophy
+### Advanced Features
+- Real-time features (WebSockets, event streaming)
+- Search architecture (Elasticsearch indexing, ranking)
+- Notifications system
+- CI/CD integration (GitHub Actions)
+- Disaster recovery and backup strategies
 
-### Signal-Based Evaluation
-- Evaluation is **signal-based, not vibe-based**
-- All feedback is **explainable, specific, and grounded in observable evidence**
-- Uses qualifiers like "likely," "may indicate," "suggests" when inferring
+### Algorithms & Performance
+- Git merge algorithm (3-way merge)
+- Consistent hashing for sharding
+- Diff algorithms
+- Performance targets and optimizations
 
-### Conservative Interpretation
-- Does not infer intent, personality, or potential beyond observable signals
-- Does not invent achievements or exaggerate impact
-- States uncertainty explicitly when uncertain
-- Preserves factual integrity in all suggestions
+## Use Cases
 
-### Explainability First
-- Every finding traces back to specific evidence in the resume
-- Explains **why** a signal matters, not just **that** it matters
-- Provides context on screening implications
+This system design is useful for:
+- **System Design Interviews**: Understanding large-scale distributed systems
+- **Architecture Discussions**: Reference for building similar platforms
+- **Learning**: Understanding how GitHub handles massive scale
+- **Engineering**: Insights into scalability, performance, and reliability patterns
 
-## Analysis Pipeline
+## Key Metrics
 
-1. **Text Normalization**: Reconstruct readable sections from raw text
-2. **Structural Parsing**: Identify entries and extract bullet points
-3. **Signal Extraction**: Analyze action verbs, quantification, impact categories, clarity
-4. **Metric Computation**: Calculate quantification rates, impact distribution, clarity scores
-5. **Interpretation & Findings**: Present structured analysis with evidence-based feedback
+GitHub's scale:
+- **Users**: 50M+ active users
+- **Repositories**: 100M+ repositories
+- **Daily Commits**: 100M+ commits/day
+- **API Requests**: 1B+ requests/day
+- **Storage**: 100+ PB of code and metadata
+- **Availability**: 99.9% uptime target
 
-## Output Format
+## Architecture Highlights
 
-Each analysis includes:
-
-1. **Overview**: High-level summary (2-3 sentences)
-2. **Signal Analysis**:
-   - Strong Signals (3-5 with evidence)
-   - Weak or Missing Signals (3-5 with guidance)
-   - Risk Flags (only if observable evidence exists)
-3. **Targeted Suggestions**: 3-5 prioritized, actionable suggestions
-4. **Example Rewrites**: Maximum 2 examples with placeholders
-
-## Role-Aware Analysis
-
-Optimized for technical roles:
-- Software Engineer
-- Data Scientist / Analyst
-- Product Manager
-- DevOps / SRE
-- Research Engineer
-
-Can analyze for general technical roles if no specific role is provided.
-
-## Ethical Constraints
-
-- Does not fabricate achievements or suggest inventing metrics
-- Does not predict hiring outcomes
-- Does not make definitive ATS claims without evidence
-- Preserves factual integrity in all suggestions
-- Respects candidate agency
-
-## Limitations
-
-ResumePulse cannot:
-- Predict actual hiring decisions or ATS behavior with certainty
-- Assess visual design, formatting, or aesthetic appeal
-- Verify truthfulness of claims (assumes good faith)
-- Provide role-specific advice for all industries
-- Replace human judgment in hiring processes
-
-## Version
-
-**System Version**: 2.0  
-**Last Updated**: 2025-12-27
+- **Microservices Architecture**: Loosely coupled, independently scalable services
+- **Database Sharding**: Horizontal partitioning by user/repository
+- **Multi-Layer Caching**: CDN → Application → Database
+- **Event-Driven**: Asynchronous processing for scalability
+- **Security-First**: Comprehensive security measures
+- **High Availability**: 99.9% uptime with disaster recovery
 
 ## License
 
-This system design is provided for creating Custom GPTs. Use responsibly and in accordance with OpenAI's usage policies.
-
-## Support
-
-For setup questions, refer to `CUSTOM_GPT_SETUP_GUIDE.md`. For system design questions, review `CUSTOM_GPT_SYSTEM_PROMPT.md`.
+This system design document is provided for educational and reference purposes.
 
 ---
 
-**Note**: This is a system design document for creating a Custom GPT. It does not include code implementation. For a code-based implementation, you would need to build a separate application using the principles outlined here.
-
+**Note**: This is a system design document based on public information and architectural patterns. It represents a conceptual architecture for how a platform like GitHub could be designed, not necessarily GitHub's exact implementation.
