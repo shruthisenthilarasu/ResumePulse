@@ -1,14 +1,15 @@
-# GitHub System Design Architecture
+# ResumePulse: System Design Architecture
 
-A comprehensive system design document for GitHub's architecture, covering scalability, performance, security, and all major components.
+A comprehensive system design document for ResumePulse, a resume analytics and signal evaluation platform.
 
 ## Overview
 
-This repository contains a detailed system design architecture for GitHub, one of the world's largest code hosting platforms. The document covers how GitHub handles 50M+ users, 100M+ repositories, and billions of operations daily.
+ResumePulse is a signal-based resume analytics platform that analyzes observable signals in resumes and provides evidence-based, explainable feedback for technical roles. This repository contains the complete system design architecture.
 
 ## Contents
 
-- **`GITHUB_SYSTEM_DESIGN.md`**: Complete system design architecture document
+- **`RESUMEPULSE_SYSTEM_DESIGN.md`**: Complete system design architecture document
+- **`CUSTOM_GPT_SETUP_GUIDE.md`**: Guide for setting up ResumePulse as a Custom GPT
 
 ## What's Covered
 
@@ -18,60 +19,92 @@ This repository contains a detailed system design architecture for GitHub, one o
 - Data flow and communication patterns
 
 ### Detailed Components
-- Repository Service (Git operations, forks, branches)
-- Git Protocol Handler (HTTPS/SSH)
-- Pull Request Service (merge workflows, conflict detection)
-- Issues & Project Management
-- Authentication & Authorization
-- Search Service (code, repository, user search)
+- **Resume Service**: Upload, storage, versioning
+- **PDF Processor**: Text extraction and normalization
+- **Analysis Service**: 5-step analysis pipeline
+- **Signal Extractor**: Action verbs, quantification, impact, clarity
+- **Report Generator**: Structured feedback generation
+- **User Service**: Authentication and subscription management
 
 ### Technical Deep Dives
 - **Data Models**: Entity relationships and database schemas
-- **Storage Architecture**: MySQL sharding, Git object storage, caching strategies
-- **API Design**: REST and GraphQL APIs
-- **Scalability**: Horizontal scaling, caching, database optimization
-- **Security**: Authentication, authorization, encryption
-- **Deployment**: Blue-green deployments, canary releases
+- **Storage Architecture**: PostgreSQL, S3/GCS, Redis, message queues
+- **API Design**: REST, GraphQL, and WebSocket APIs
+- **Analysis Pipeline**: Detailed 5-step process
+- **Scalability**: Horizontal scaling, caching, performance optimization
+- **Security**: Authentication, authorization, encryption, GDPR compliance
 
-### Advanced Features
-- Real-time features (WebSockets, event streaming)
-- Search architecture (Elasticsearch indexing, ranking)
-- Notifications system
-- CI/CD integration (GitHub Actions)
-- Disaster recovery and backup strategies
+### System Capabilities
+- PDF resume processing and text extraction
+- Signal-based analysis (action verbs, quantification, impact, clarity)
+- Role-aware analysis (Software Engineer, Data Scientist, PM, etc.)
+- Structured feedback with evidence-based suggestions
+- Resume comparison (before/after)
+- Report generation and export
 
-### Algorithms & Performance
-- Git merge algorithm (3-way merge)
-- Consistent hashing for sharding
-- Diff algorithms
-- Performance targets and optimizations
+## Key Features
 
-## Use Cases
+### Analysis Pipeline
+1. **Text Normalization**: Reconstruct readable sections from PDF text
+2. **Structural Parsing**: Identify entries and extract bullet points
+3. **Signal Extraction**: Analyze action verbs, quantification, impact categories, clarity
+4. **Metric Computation**: Calculate quantification rates, impact distribution, clarity scores
+5. **Interpretation & Findings**: Generate structured analysis with evidence-based feedback
 
-This system design is useful for:
-- **System Design Interviews**: Understanding large-scale distributed systems
-- **Architecture Discussions**: Reference for building similar platforms
-- **Learning**: Understanding how GitHub handles massive scale
-- **Engineering**: Insights into scalability, performance, and reliability patterns
+### Signal Types Analyzed
+- **Action Verbs**: Quality, diversity, specificity
+- **Quantification**: Presence of metrics, percentages, scale indicators
+- **Impact Categories**: Technical, Business, Operational, Analytical
+- **Clarity**: Clear, Vague, or Ambiguous statements
+- **Role Alignment**: Relevance to target role
 
-## Key Metrics
+### Output Format
+- Overview (2-3 sentence summary)
+- Strong Signals (3-5 with evidence)
+- Weak/Missing Signals (3-5 with guidance)
+- Risk Flags (only if observable evidence exists)
+- Targeted Suggestions (3-5 prioritized recommendations)
+- Example Rewrites (maximum 2 examples)
 
-GitHub's scale:
-- **Users**: 50M+ active users
-- **Repositories**: 100M+ repositories
-- **Daily Commits**: 100M+ commits/day
-- **API Requests**: 1B+ requests/day
-- **Storage**: 100+ PB of code and metadata
-- **Availability**: 99.9% uptime target
+## System Scale
+
+- **Users**: 100K+ active users
+- **Resumes Analyzed**: 1M+ resumes/month
+- **Daily Requests**: 50K+ analysis requests/day
+- **Storage**: 10+ TB of resumes and analysis data
+- **Performance**: 
+  - PDF processing < 5s
+  - Analysis generation < 10s
+  - API response time < 500ms (p95)
 
 ## Architecture Highlights
 
 - **Microservices Architecture**: Loosely coupled, independently scalable services
-- **Database Sharding**: Horizontal partitioning by user/repository
+- **Event-Driven**: Asynchronous processing for heavy operations
 - **Multi-Layer Caching**: CDN → Application → Database
-- **Event-Driven**: Asynchronous processing for scalability
-- **Security-First**: Comprehensive security measures
-- **High Availability**: 99.9% uptime with disaster recovery
+- **Queue-Based Processing**: Background jobs for PDF processing and analysis
+- **Stateless Services**: Horizontal scaling capability
+- **API-First**: REST, GraphQL, and WebSocket APIs
+- **Security-First**: End-to-end encryption, GDPR compliant
+
+## Technology Stack
+
+- **Backend**: Node.js/Express or Python/FastAPI
+- **Database**: PostgreSQL
+- **Cache**: Redis
+- **Object Storage**: AWS S3 / Google Cloud Storage
+- **Message Queue**: RabbitMQ / AWS SQS
+- **PDF Processing**: pdfplumber, PyPDF2
+- **NLP**: spaCy, NLTK
+- **Frontend**: React (web), React Native (mobile)
+
+## Use Cases
+
+This system design is useful for:
+- **Building ResumePulse**: Reference architecture for implementation
+- **System Design Interviews**: Understanding resume analytics platforms
+- **Architecture Discussions**: Scalable microservices patterns
+- **Learning**: PDF processing, NLP, signal extraction, report generation
 
 ## License
 
@@ -79,4 +112,4 @@ This system design document is provided for educational and reference purposes.
 
 ---
 
-**Note**: This is a system design document based on public information and architectural patterns. It represents a conceptual architecture for how a platform like GitHub could be designed, not necessarily GitHub's exact implementation.
+**Note**: This is a system design document for the ResumePulse application. For implementation, you would need to build the actual application using the principles and architecture outlined here.
