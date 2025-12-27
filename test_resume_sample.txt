@@ -1,0 +1,30 @@
+EXPERIENCE
+
+Software Engineer | TechCorp Inc.
+June 2021 - Present
+
+• Worked on improving system performance
+• Built a dashboard for monitoring
+• Responsible for maintaining CI/CD pipelines
+• Reduced API latency by 40% through caching layer implementation
+• Developed microservices architecture serving 10K daily active users
+
+PROJECTS
+
+Personal Finance Tracker
+• Built a web application using React and Node.js
+• Implemented user authentication and data visualization
+• Deployed to production with 500+ active users
+
+Machine Learning Classifier
+• Trained a model to classify images
+• Achieved 85% accuracy on test dataset
+• Used Python and TensorFlow
+
+SKILLS
+Python, JavaScript, React, Node.js, AWS, Docker, Kubernetes
+
+EDUCATION
+Bachelor of Science in Computer Science
+State University | 2021
+
