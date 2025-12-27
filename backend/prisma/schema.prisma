@@ -1,0 +1,74 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String    @id @default(uuid())
+  email             String    @unique
+  username          String?   @unique
+  passwordHash      String    @map("password_hash")
+  name              String?
+  subscriptionTier  String    @default("FREE") // FREE, PREMIUM, ENTERPRISE
+  analysesRemaining Int       @default(5)
+  createdAt         DateTime  @default(now()) @map("created_at")
+  updatedAt         DateTime  @updatedAt @map("updated_at")
+  lastLoginAt      DateTime? @map("last_login_at")
+
+  resumes   Resume[]
+  analyses  Analysis[]
+
+  @@map("users")
+}
+
+model Resume {
+  id               String   @id @default(uuid())
+  userId           String   @map("user_id")
+  filename         String
+  originalFilename String   @map("original_filename")
+  filePath         String   @map("file_path")
+  fileSize         Int      @map("file_size")
+  mimeType         String   @map("mime_type")
+  extractedText    String?  @map("extracted_text") @db.Text
+  normalizedText   String?  @map("normalized_text") @db.Text
+  extractionQuality String? @map("extraction_quality") // GOOD, LIMITED, POOR
+  version          Int      @default(1)
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  user     User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  analyses Analysis[]
+
+  @@map("resumes")
+  @@index([userId])
+}
+
+model Analysis {
+  id              String    @id @default(uuid())
+  resumeId        String    @map("resume_id")
+  userId          String    @map("user_id")
+  targetRole      String?   @map("target_role")
+  status          String    @default("PENDING") // PENDING, PROCESSING, COMPLETED, FAILED
+  report          Json?     // Full analysis report
+  metrics         Json?     // Computed metrics
+  errorMessage    String?   @map("error_message") @db.Text
+  processingTimeMs Int?     @map("processing_time_ms")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  completedAt     DateTime? @map("completed_at")
+
+  resume Resume @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("analyses")
+  @@index([resumeId])
+  @@index([userId])
+  @@index([status])
+}
+

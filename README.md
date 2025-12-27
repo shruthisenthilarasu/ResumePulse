@@ -1,121 +1,209 @@
-# ResumePulse: System Design Architecture
+# ResumePulse: Full-Stack Resume Analytics Application
 
-A comprehensive system design document for ResumePulse, a resume analytics and signal evaluation platform.
+A complete full-stack application for resume analytics and signal evaluation, integrated with OpenAI Custom GPT.
 
-## Overview
+## 🚀 Features
 
-ResumePulse is a signal-based resume analytics platform that analyzes observable signals in resumes and provides evidence-based, explainable feedback for technical roles. This repository contains the complete system design architecture.
+- **PDF Resume Upload**: Upload and process PDF resumes
+- **AI-Powered Analysis**: Integrated with OpenAI Custom GPT for signal-based analysis
+- **Role-Aware Feedback**: Analyze resumes for specific roles (Software Engineer, Data Scientist, etc.)
+- **Structured Reports**: Get detailed feedback with:
+  - Strong signals identification
+  - Weak signals and gaps
+  - Risk flags
+  - Prioritized suggestions
+  - Example rewrites
+- **User Management**: Authentication, profiles, and usage tracking
+- **Real-time Updates**: Polling for analysis status
 
-## Contents
+## 📁 Project Structure
 
-- **`RESUMEPULSE_SYSTEM_DESIGN.md`**: Complete system design architecture document
-- **`CUSTOM_GPT_SETUP_GUIDE.md`**: Guide for setting up ResumePulse as a Custom GPT
+```
+ResumePulse/
+├── backend/              # Express/TypeScript API
+│   ├── src/
+│   │   ├── routes/      # API routes
+│   │   ├── services/     # Business logic
+│   │   └── middleware/   # Auth middleware
+│   ├── prisma/           # Database schema
+│   └── package.json
+├── frontend/             # React/TypeScript frontend
+│   ├── src/
+│   │   ├── pages/        # React pages
+│   │   ├── components/   # React components
+│   │   ├── api/          # API client
+│   │   └── store/        # State management
+│   └── package.json
+├── RESUMEPULSE_SYSTEM_DESIGN.md
+├── CUSTOM_GPT_SETUP_GUIDE.md
+└── SETUP.md
+```
 
-## Try ResumePulse
+## 🛠️ Tech Stack
 
-**Live Custom GPT**: [ResumePulse on ChatGPT](https://chatgpt.com/g/g-694f75c6d7e881918aedfd76c37a1a6f-resume-pulse)
+### Backend
+- **Node.js** with **Express** and **TypeScript**
+- **PostgreSQL** with **Prisma ORM**
+- **OpenAI API** for Custom GPT integration
+- **JWT** for authentication
+- **Multer** for file uploads
+- **pdf-parse** for PDF text extraction
 
-Try the ResumePulse Custom GPT to analyze your resume and get evidence-based feedback on observable signals.
+### Frontend
+- **React** with **TypeScript**
+- **Vite** for build tooling
+- **React Router** for routing
+- **Zustand** for state management
+- **Tailwind CSS** for styling
+- **Axios** for API calls
+- **React Dropzone** for file uploads
 
-## What's Covered
+## 🚀 Quick Start
 
-### Core Architecture
-- High-level system architecture with component diagrams
-- Microservices breakdown and service interactions
-- Data flow and communication patterns
+See [SETUP.md](./SETUP.md) for detailed setup instructions.
 
-### Detailed Components
-- **Resume Service**: Upload, storage, versioning
-- **PDF Processor**: Text extraction and normalization
-- **Analysis Service**: 5-step analysis pipeline
-- **Signal Extractor**: Action verbs, quantification, impact, clarity
-- **Report Generator**: Structured feedback generation
-- **User Service**: Authentication and subscription management
+### Prerequisites
+- Node.js 18+
+- PostgreSQL 14+
+- OpenAI API key
 
-### Technical Deep Dives
-- **Data Models**: Entity relationships and database schemas
-- **Storage Architecture**: PostgreSQL, S3/GCS, Redis, message queues
-- **API Design**: REST, GraphQL, and WebSocket APIs
-- **Analysis Pipeline**: Detailed 5-step process
-- **Scalability**: Horizontal scaling, caching, performance optimization
-- **Security**: Authentication, authorization, encryption, GDPR compliance
+### Quick Setup
 
-### System Capabilities
-- PDF resume processing and text extraction
-- Signal-based analysis (action verbs, quantification, impact, clarity)
-- Role-aware analysis (Software Engineer, Data Scientist, PM, etc.)
-- Structured feedback with evidence-based suggestions
-- Resume comparison (before/after)
-- Report generation and export
+1. **Clone and install:**
+   ```bash
+   # Backend
+   cd backend
+   npm install
+   cp .env.example .env
+   # Edit .env with your configuration
+   
+   # Frontend
+   cd ../frontend
+   npm install
+   ```
 
-## Key Features
+2. **Set up database:**
+   ```bash
+   cd backend
+   createdb resumepulse
+   npm run prisma:generate
+   npm run prisma:migrate
+   ```
+
+3. **Start servers:**
+   ```bash
+   # Terminal 1 - Backend
+   cd backend
+   npm run dev
+   
+   # Terminal 2 - Frontend
+   cd frontend
+   npm run dev
+   ```
+
+4. **Open browser:**
+   Navigate to `http://localhost:3000`
+
+## 📚 Documentation
+
+- **[System Design](./RESUMEPULSE_SYSTEM_DESIGN.md)**: Complete system architecture
+- **[Setup Guide](./SETUP.md)**: Detailed setup instructions
+- **[Custom GPT Guide](./CUSTOM_GPT_SETUP_GUIDE.md)**: Custom GPT setup
+
+## 🔗 Links
+
+- **Live Custom GPT**: [ResumePulse on ChatGPT](https://chatgpt.com/g/g-694f75c6d7e881918aedfd76c37a1a6f-resume-pulse)
+
+## 📝 API Documentation
+
+### Authentication
+- `POST /api/auth/register` - Register new user
+- `POST /api/auth/login` - Login user
+
+### Resumes
+- `POST /api/resumes` - Upload resume
+- `GET /api/resumes` - List user's resumes
+- `GET /api/resumes/:id` - Get resume details
+- `DELETE /api/resumes/:id` - Delete resume
+
+### Analyses
+- `POST /api/analyses` - Create analysis
+- `GET /api/analyses` - List user's analyses
+- `GET /api/analyses/:id` - Get analysis results
+- `DELETE /api/analyses/:id` - Delete analysis
+
+## 🎯 Key Features
+
+### Signal-Based Analysis
+- Action verb analysis
+- Quantification detection
+- Impact categorization
+- Clarity assessment
+- Role alignment
 
 ### Analysis Pipeline
-1. **Text Normalization**: Reconstruct readable sections from PDF text
-2. **Structural Parsing**: Identify entries and extract bullet points
-3. **Signal Extraction**: Analyze action verbs, quantification, impact categories, clarity
-4. **Metric Computation**: Calculate quantification rates, impact distribution, clarity scores
-5. **Interpretation & Findings**: Generate structured analysis with evidence-based feedback
+1. Text Normalization
+2. Structural Parsing
+3. Signal Extraction
+4. Metric Computation
+5. Interpretation & Findings
 
-### Signal Types Analyzed
-- **Action Verbs**: Quality, diversity, specificity
-- **Quantification**: Presence of metrics, percentages, scale indicators
-- **Impact Categories**: Technical, Business, Operational, Analytical
-- **Clarity**: Clear, Vague, or Ambiguous statements
-- **Role Alignment**: Relevance to target role
+## 🔒 Security
 
-### Output Format
-- Overview (2-3 sentence summary)
-- Strong Signals (3-5 with evidence)
-- Weak/Missing Signals (3-5 with guidance)
-- Risk Flags (only if observable evidence exists)
-- Targeted Suggestions (3-5 prioritized recommendations)
-- Example Rewrites (maximum 2 examples)
+- JWT-based authentication
+- Password hashing with bcrypt
+- File upload validation
+- CORS protection
+- Input validation with Zod
 
-## System Scale
+## 📊 Database Schema
 
-- **Users**: 100K+ active users
-- **Resumes Analyzed**: 1M+ resumes/month
-- **Daily Requests**: 50K+ analysis requests/day
-- **Storage**: 10+ TB of resumes and analysis data
-- **Performance**: 
-  - PDF processing < 5s
-  - Analysis generation < 10s
-  - API response time < 500ms (p95)
+- **Users**: Authentication and profiles
+- **Resumes**: Uploaded resume files and metadata
+- **Analyses**: Analysis results and reports
 
-## Architecture Highlights
+See `backend/prisma/schema.prisma` for full schema.
 
-- **Microservices Architecture**: Loosely coupled, independently scalable services
-- **Event-Driven**: Asynchronous processing for heavy operations
-- **Multi-Layer Caching**: CDN → Application → Database
-- **Queue-Based Processing**: Background jobs for PDF processing and analysis
-- **Stateless Services**: Horizontal scaling capability
-- **API-First**: REST, GraphQL, and WebSocket APIs
-- **Security-First**: End-to-end encryption, GDPR compliant
+## 🚧 Development
 
-## Technology Stack
+### Backend
+```bash
+cd backend
+npm run dev        # Development with hot reload
+npm run build      # Build for production
+npm start          # Run production build
+```
 
-- **Backend**: Node.js/Express or Python/FastAPI
-- **Database**: PostgreSQL
-- **Cache**: Redis
-- **Object Storage**: AWS S3 / Google Cloud Storage
-- **Message Queue**: RabbitMQ / AWS SQS
-- **PDF Processing**: pdfplumber, PyPDF2
-- **NLP**: spaCy, NLTK
-- **Frontend**: React (web), React Native (mobile)
+### Frontend
+```bash
+cd frontend
+npm run dev        # Development server
+npm run build      # Build for production
+npm run preview    # Preview production build
+```
 
-## Use Cases
+## 📦 Deployment
 
-This system design is useful for:
-- **Building ResumePulse**: Reference architecture for implementation
-- **System Design Interviews**: Understanding resume analytics platforms
-- **Architecture Discussions**: Scalable microservices patterns
-- **Learning**: PDF processing, NLP, signal extraction, report generation
+### Backend
+- Set `NODE_ENV=production`
+- Configure production database
+- Use environment variables for secrets
+- Set up file storage (S3/GCS)
+- Use process manager (PM2)
 
-## License
+### Frontend
+- Build: `npm run build`
+- Serve with nginx or similar
+- Configure API proxy
 
-This system design document is provided for educational and reference purposes.
+## 🤝 Contributing
+
+This is a full-stack application template. Feel free to extend and customize for your needs.
+
+## 📄 License
+
+MIT
 
 ---
 
-**Note**: This is a system design document for the ResumePulse application. For implementation, you would need to build the actual application using the principles and architecture outlined here.
+**Note**: This application integrates with OpenAI's Custom GPT API. Ensure you have proper API keys and usage limits configured.
