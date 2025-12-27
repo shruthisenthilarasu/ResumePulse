@@ -2,6 +2,12 @@
 
 This guide will help you create a Custom GPT on OpenAI's platform using the ResumePulse system design.
 
+## Live Custom GPT
+
+**Try ResumePulse**: [ResumePulse on ChatGPT](https://chatgpt.com/g/g-694f75c6d7e881918aedfd76c37a1a6f-resume-pulse)
+
+The ResumePulse Custom GPT is already live and ready to use! You can try it out or use this guide to create your own version.
+
 ## Step 1: Access Custom GPT Builder
 
 1. Go to [chat.openai.com](https://chat.openai.com)

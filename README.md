@@ -11,6 +11,12 @@ ResumePulse is a signal-based resume analytics platform that analyzes observable
 - **`RESUMEPULSE_SYSTEM_DESIGN.md`**: Complete system design architecture document
 - **`CUSTOM_GPT_SETUP_GUIDE.md`**: Guide for setting up ResumePulse as a Custom GPT
 
+## Try ResumePulse
+
+**Live Custom GPT**: [ResumePulse on ChatGPT](https://chatgpt.com/g/g-694f75c6d7e881918aedfd76c37a1a6f-resume-pulse)
+
+Try the ResumePulse Custom GPT to analyze your resume and get evidence-based feedback on observable signals.
+
 ## What's Covered
 
 ### Core Architecture
