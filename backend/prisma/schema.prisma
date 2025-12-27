@@ -14,8 +14,11 @@ model User {
   id                String    @id @default(uuid())
   email             String    @unique
   username          String?   @unique
-  passwordHash      String    @map("password_hash")
+  passwordHash      String?   @map("password_hash") // Optional for OAuth users
   name              String?
+  googleId          String?   @unique @map("google_id")
+  avatarUrl         String?   @map("avatar_url")
+  authProvider      String    @default("EMAIL") @map("auth_provider") // EMAIL, GOOGLE
   subscriptionTier  String    @default("FREE") // FREE, PREMIUM, ENTERPRISE
   analysesRemaining Int       @default(5)
   createdAt         DateTime  @default(now()) @map("created_at")

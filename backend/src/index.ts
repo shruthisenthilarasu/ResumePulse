@@ -1,11 +1,13 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import session from 'express-session';
 import { PrismaClient } from '@prisma/client';
 import authRoutes from './routes/auth';
 import resumeRoutes from './routes/resumes';
 import analysisRoutes from './routes/analyses';
 import userRoutes from './routes/users';
+import passport from './config/passport';
 
 dotenv.config();
 
@@ -19,6 +21,13 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(session({
+  secret: process.env.JWT_SECRET || 'secret',
+  resave: false,
+  saveUninitialized: false,
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Routes
 app.use('/api/auth', authRoutes);

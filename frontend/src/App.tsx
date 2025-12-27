@@ -5,6 +5,7 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import ResumeUpload from './pages/ResumeUpload';
 import AnalysisView from './pages/AnalysisView';
+import AuthCallback from './pages/AuthCallback';
 import Layout from './components/Layout';
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
       <Routes>
         <Route path="/login" element={!token ? <Login /> : <Navigate to="/" />} />
         <Route path="/register" element={!token ? <Register /> : <Navigate to="/" />} />
+        <Route path="/auth/callback" element={<AuthCallback />} />
         <Route
           path="/"
           element={token ? <Layout /> : <Navigate to="/login" />}

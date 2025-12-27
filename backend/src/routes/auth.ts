@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { PrismaClient } from '@prisma/client';
 import { z } from 'zod';
+import passport from '../config/passport';
 
 const router = express.Router();
 const prisma = new PrismaClient();
@@ -91,10 +92,17 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    // Verify password
-    const valid = await bcrypt.compare(password, user.passwordHash);
-    if (!valid) {
-      return res.status(401).json({ error: 'Invalid credentials' });
+    // Verify password (only for email/password users)
+    if (user.authProvider === 'EMAIL') {
+      if (!user.passwordHash) {
+        return res.status(401).json({ error: 'Invalid credentials' });
+      }
+      const valid = await bcrypt.compare(password, user.passwordHash);
+      if (!valid) {
+        return res.status(401).json({ error: 'Invalid credentials' });
+      }
+    } else {
+      return res.status(401).json({ error: 'Please sign in with Google' });
     }
 
     // Update last login
@@ -118,6 +126,7 @@ router.post('/login', async (req, res) => {
         username: user.username,
         subscriptionTier: user.subscriptionTier,
         analysesRemaining: user.analysesRemaining,
+        avatarUrl: user.avatarUrl,
       },
       token,
     });
@@ -129,6 +138,23 @@ router.post('/login', async (req, res) => {
     res.status(500).json({ error: 'Login failed' });
   }
 });
+
+// Google OAuth routes
+router.get(
+  '/google',
+  passport.authenticate('google', { scope: ['profile', 'email'] })
+);
+
+router.get(
+  '/google/callback',
+  passport.authenticate('google', { session: false }),
+  (req: any, res) => {
+    // Redirect to frontend with token
+    const { user, token } = req.user;
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+    res.redirect(`${frontendUrl}/auth/callback?token=${token}&user=${encodeURIComponent(JSON.stringify(user))}`);
+  }
+);
 
 export default router;
 
